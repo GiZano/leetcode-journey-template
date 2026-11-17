@@ -1,0 +1,58 @@
+name: Guardrail - Check No Solutions in PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  verify-no-solutions:
+    name: Verify No Personal Solutions
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Inspect Changed Files
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          echo "Changed files in PR:"
+          echo "$CHANGED_FILES"
+
+          # Detect any file within solutions/ that is not an existing README.md index
+          DISALLOWED=$(echo "$CHANGED_FILES" | grep -E '^solutions/' | grep -v -E '^solutions/(easy|medium|hard)/README\.md$' || true)
+
+          if [ -n "$DISALLOWED" ]; then
+            echo "::error file=solutions::This Pull Request adds or modifies personal solutions in 'solutions/', which violates repository policy."
+            echo ""
+            echo "Disallowed files detected:"
+            echo "$DISALLOWED"
+
+            cat << 'EOF' >> $GITHUB_STEP_SUMMARY
+          ### 🚨 Pull Request Policy Violation
+
+          This repository is an **automated template**, not a personal solution archive.
+
+          > [!IMPORTANT]
+          > Per [CONTRIBUTING.md](https://github.com/GiZano/leetcode-journey-template/blob/main/CONTRIBUTING.md#essential-rule-no-solved-exercises-accepted), we do **NOT** accept Pull Requests that add solved problems or personal solutions.
+
+          **Disallowed files detected:**
+          ```text
+          EOF
+            echo "$DISALLOWED" >> $GITHUB_STEP_SUMMARY
+            cat << 'EOF' >> $GITHUB_STEP_SUMMARY
+          ```
+
+          If you want to track your own solutions, please click **"Use this template"** on GitHub to create your own personal repository.
+          EOF
+            exit 1
+          fi
+
+          echo "✅ PR check passed: No personal solutions detected."

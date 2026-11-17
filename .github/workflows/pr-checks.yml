@@ -1,0 +1,50 @@
+name: PR Validation & Linting
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+      - '.gitignore'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Lint & Execution Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Linting & Testing Tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff pytest
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+
+      - name: Lint Python Code with Ruff
+        run: |
+          ruff check update_readme.py
+
+      - name: Verify update_readme.py Execution
+        run: |
+          python update_readme.py
+
+      - name: Run Test Suite (if tests/ exists)
+        run: |
+          if [ -d "tests" ]; then
+            pytest tests/ -v
+          else
+            echo "ℹ️ No tests/ directory found yet. Skipping pytest."
+          fi
