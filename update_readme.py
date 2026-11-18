@@ -23,7 +23,7 @@ def clean_complexity(raw_str):
     """Clean complexity string, removing comments and trailing markers."""
     if not raw_str:
         return "N/A"
-    cleaned = re.split(r'#|//|\*/', raw_str)[0].rstrip('*').strip()
+    cleaned = re.split(r'#|//|\*/', raw_str)[0].strip().rstrip('*').strip()
     return cleaned if cleaned else "N/A"
 
 def parse_problems():
@@ -65,7 +65,7 @@ def parse_problems():
             try:
                 with open(file_path, "r", encoding="utf-8") as f:
                     content = f.read()
-            except Exception as e:
+            except (OSError, UnicodeError) as e:
                 print(f"Error reading {file_path}: {e}")
                 continue
 
