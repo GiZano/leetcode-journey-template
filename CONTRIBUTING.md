@@ -70,6 +70,17 @@ We actively look for contributions that enhance the functionality, flexibility, 
 
 ---
 
+## Testing the README generator
+
+From the repository root, install the test dependency and run pytest:
+
+```bash
+python -m pip install -r requirements-dev.txt
+python -m pytest tests/ -v
+```
+
+The tests create temporary solution metadata and Markdown files, so they work without adding any solutions to the template.
+
 ## 📋 Pull Request Expectations
 
 Before opening your Pull Request, please ensure:
