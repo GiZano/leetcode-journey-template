@@ -10,6 +10,8 @@ This directory contains starter templates and test harnesses to kickstart solvin
 | [`template.cpp`](./template.cpp) | C++20 | Starter file with common STL headers and class template |
 | [`template_test.py`](./template_test.py) | Python 3 | Local unit test runner (table-driven test cases) |
 | [`template_test.cpp`](./template_test.cpp) | C++20 | Local test runner with `#ifdef LOCAL` compilation flag |
+| [`template.java`](./template.java) | Java | Starter file with `java.util.*` import and class template |
+| [`template_test.java`](./template_test.java) | Java | Local test runner (`Main` class, assertions or table-driven) |
 
 ---
 
@@ -20,6 +22,8 @@ This directory contains starter templates and test harnesses to kickstart solvin
    cp utils/template.py solutions/easy/0001-two-sum.py
    # or for C++:
    cp utils/template.cpp solutions/easy/0001-two-sum.cpp
+   # or for Java:
+   cp utils/template.java solutions/easy/0001-two-sum.java
    ```
 
 2. **Fill in the metadata header** at the top of the file:
@@ -29,3 +33,4 @@ This directory contains starter templates and test harnesses to kickstart solvin
 3. *(Optional)* **Append the test harness** (`template_test.py` or `template_test.cpp`) to test your solution locally before submitting to LeetCode:
    - For Python: `python3 solutions/easy/0001-two-sum.py`
    - For C++: `g++ -std=c++20 -DLOCAL solutions/easy/0001-two-sum.cpp -o runner && ./runner`
+   - For Java: `javac solutions/easy/0001-two-sum.java && java -ea -cp solutions/easy Main`
