@@ -22,7 +22,7 @@ This directory contains starter templates and test harnesses to kickstart solvin
    cp utils/template.py solutions/easy/0001-two-sum.py
    # or for C++:
    cp utils/template.cpp solutions/easy/0001-two-sum.cpp
-   # or for java:
+   # or for Java:
    cp utils/template.java solutions/easy/0001-two-sum.java
    ```
 
@@ -33,4 +33,4 @@ This directory contains starter templates and test harnesses to kickstart solvin
 3. *(Optional)* **Append the test harness** (`template_test.py` or `template_test.cpp`) to test your solution locally before submitting to LeetCode:
    - For Python: `python3 solutions/easy/0001-two-sum.py`
    - For C++: `g++ -std=c++20 -DLOCAL solutions/easy/0001-two-sum.cpp -o runner && ./runner`
-   - For java: `javac solutions/easy/0001-two-sum.java && java -ea -cp solutions/easy Main`
+   - For Java: `javac solutions/easy/0001-two-sum.java && java -ea -cp solutions/easy Main`
